@@ -4,20 +4,31 @@
 
 ![Test & Release](https://github.com/interline-io/transitland-lib/workflows/Test%20&%20Release/badge.svg) [![GoDoc](https://godoc.org/github.com/interline-io/transitland-lib/tl?status.svg)](https://godoc.org/github.com/interline-io/transitland-lib/tl) ![Go Report Card](https://goreportcard.com/badge/github.com/interline-io/transitland-lib)
 
+## Key Features
+
+- Modular readers and writers for GTFS, CSV, SQLite and PostgreSQL
+- Pipelines for fetching, validating and importing feeds
+- CLI utilities for diffing, merging and real-time conversions
+- Extensible filters to customize feed processing
+- Usable as a Go library for bespoke data workflows
+
 ## Table of Contents <!-- omit in toc -->
 <!-- to update use https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one -->
+- [Key Features](#key-features)
 - [Installation](#installation)
-	- [Download prebuilt binary](#download-prebuilt-binary)
-	- [Install using homebrew](#install-using-homebrew)
-	- [Install binary from source](#install-binary-from-source)
+        - [Download prebuilt binary](#download-prebuilt-binary)
+        - [Install using homebrew](#install-using-homebrew)
+        - [Install binary from source](#install-binary-from-source)
 - [Usage as a CLI tool](#usage-as-a-cli-tool)
 	- [Breaking changes](#breaking-changes)
 - [Usage as a library](#usage-as-a-library)
 - [Database migrations](#database-migrations)
 - [Usage as a Web Service](#usage-as-a-web-service)
 - [Included Readers and Writers](#included-readers-and-writers)
+- [Repository layout](#repository-layout)
 - [Development](#development)
-	- [Releases](#releases)
+        - [Contributing](#contributing)
+        - [Releases](#releases)
 - [Licenses](#licenses)
 
 ## Installation
@@ -95,11 +106,63 @@ See [transitland-server](https://github.com/interline-io/transitland-server) doc
 
 We welcome the addition of more readers and writers.
 
+## Repository layout
+
+The top level of this repository is organized into Go packages that make up the
+library and supporting directories used for documentation and tests.
+
+### Go packages
+
+```
+adapters/   - reusable readers and writers
+causes/     - validation result helpers
+cmd/        - main entrypoint for the `transitland` binary
+cmds/       - individual CLI subcommands
+copier/     - utilities for copying feed data
+diff/       - diff command implementation
+dmfr/       - DMFR feed metadata types
+ext/        - GTFS extensions
+extract/    - extracting subsets of feeds
+fetch/      - fetch GTFS and realtime data
+filters/    - data filtering utilities
+gtfs/       - core GTFS models
+importer/   - import pipeline
+internal/   - shared packages
+request/    - HTTP/FTP/Azure/S3 helpers
+rt/         - GTFS-RealTime support
+rules/      - validation rules
+schema/     - database schemas
+service/    - service layer utilities
+stats/      - feed statistics
+sync/       - DMFR sync helpers
+tlcli/      - CLI helper utilities
+tlcsv/      - CSV helpers
+tldb/       - database helpers
+tlxy/       - geometry helpers
+tt/         - typed data primitives
+validator/  - feed validation library
+```
+
+### Infrastructure & tests
+
+```
+doc/        - generated documentation
+testdata/   - sample feeds and other fixtures for tests
+```
+
 ## Development
 
 `transitland-lib` follows Go coding conventions.
 
 GitHub Actions runs all tests, stores code coverage reports as artifacts, and prepares releases.
+
+### Contributing
+
+1. Fork the repository and create a branch for your work.
+2. Run `go mod tidy` and `go generate ./...` to update dependencies and generated files.
+3. Run `go test ./...` and ensure all tests pass.
+4. Format code with `gofmt -s -w` before committing.
+5. Open a pull request with a clear description of your changes.
 
 ### Releases
 
